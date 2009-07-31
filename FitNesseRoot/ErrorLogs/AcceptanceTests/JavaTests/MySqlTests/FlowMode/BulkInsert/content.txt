@@ -1,0 +1,8 @@
+|'''Date: '''|!-4:21:49 PM (CDT) on Thursday, July 30, 2009-!|
+|'''Command: '''|!-java -cp C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\dbunit-2.4.1.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\derbyclient.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitlibrary.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitnesse.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\mysql-connector-java-5.0.7-bin.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\ojdbc14.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\poi-3.2-FINAL.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\postgresql-8.3-603.jdbc4.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-api-1.5.6.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-nop-1.5.6.jar;../impl/java/target/classes fit.FitServer wkst662 8085 12-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-0.844 seconds-!|
+----'''Standard Output:'''
+{{{Query: 'Select * from Test_DBFit'
+Rolling back
+}}}

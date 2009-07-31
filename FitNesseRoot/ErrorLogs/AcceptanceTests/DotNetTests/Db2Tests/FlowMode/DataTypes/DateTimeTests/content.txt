@@ -1,0 +1,19 @@
+|'''Date: '''|!-3:48:52 PM (CDT) on Thursday, July 30, 2009-!|
+|'''Command: '''|!-..\impl\dotnet\bin\debug\FitServer.exe  wkst662 8085 1-!|
+|'''Exit code: '''|!--1-!|
+|'''Time elapsed: '''|!--1.248986932651E9 seconds-!|
+----'''Internal Exception:'''
+{{{ java.io.IOException: Cannot run program "..\impl\dotnet\bin\debug\FitServer.exe": CreateProcess error=2, The system cannot find the file specified
+	java.lang.ProcessBuilder.start(Unknown Source)
+	java.lang.Runtime.exec(Unknown Source)
+	java.lang.Runtime.exec(Unknown Source)
+	java.lang.Runtime.exec(Unknown Source)
+	fitnesse.components.CommandRunner.start(CommandRunner.java:36)
+	fitnesse.components.CommandRunningFitClient.start(CommandRunningFitClient.java:33)
+	fitnesse.responders.run.TestResponder.startFitClient(TestResponder.java:100)
+	fitnesse.responders.run.TestResponder.doSending(TestResponder.java:51)
+	fitnesse.responders.ChunkingResponder.startSending(ChunkingResponder.java:68)
+	fitnesse.responders.ChunkingResponder.access$000(ChunkingResponder.java:17)
+	fitnesse.responders.ChunkingResponder$RespondingRunnable.run(ChunkingResponder.java:118)
+	java.lang.Thread.run(Unknown Source)
+}}}

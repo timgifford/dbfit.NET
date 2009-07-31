@@ -1,0 +1,64 @@
+Java:  AbstractDBEnvironment now public
+Java:  Close now supported in DatabaseEnvironment fixture
+
+
+release 1.1 2008-08-22
+-----------------------------
+
+Major updates
+
+- merged with fitnessedotnet release 1.7.1
+- merged with fitnesse (java) release 20080812
+- option to parse native queries (no symbol binding and parsing in dbfit, execute the directly against the database) 
+- DB2 supported in .net and java
+- Initial, incomplete Derby (no stored procs) and Sql Server (not all datatypes) support for Java (see acceptance tests for more info)
+
+Minor updates
+-  image and xml types now supported in sql server (as binary and string) in .net
+-  IDbEnvironment now exposes CurrentConnection and CurrentTransaction as public properties in .net
+-  pls_integer support for oracle/java
+-  int unsigned support for mysql
+  
+bugfixes:
+-  sql server 2005 scale/precision set correctly for db parameters
+-  bigint and smallint type mapping corrected in sql server when used for id retrieval
+-  connection strings with = in properties files
+-  CompareStoredQueries changing the second argument
+-  db parameter accessor sorting bug fixed
+  
+release 1.0 2008-03-10
+-----------------------------
+
+Major updates
+
+Support for in/out parameters in stored procedures
+Support for querying stored results
+Support for SQL Server 2000 in .NET
+Support for testing blank-padded fixed length CHAR types
+.NET version now compiled with FitNesse.NET 1.5
+Proper documentation - finally
+
+Minor updates
+
+Oracle date used as Timestamp to allow V8 compatibility switch to work
+Stored procedure params no longer have to be listed in the same order as in db
+GUID handler now just redirecting to standard GUID handler in .NET
+OrderedQuery and StoreParameter fixtures for standalone mode
+bugfix for transactions not getting rolled back in Java after tests in flow mode
+bugfix for ntext and text field sizes in sql server
+bugfix for fail[null] NullPointerException in Java
+workaround for fail[null] bug in fitnesse.net 1.5
+
+
+-----------
+2007-11-01: BugFix:Delete rows for IDs and Delete Rows for Keys in Java
+2007-11-01: Acceptance tests for conditional deletes added to the test suite for oracle. Clean now exposed as a method of DatabaseTest also
+2007-11-01: Procedure and package synonym support in Oracle/.NET and Oracle/Java
+
+2007-10-22: release 0.91
+********************************************************************************
+2007-10-13: stored queries and ref cursor output support (oracle/java)
+2007-10-13: update command supported in .net
+2007-10-12: support for update command (java only)
+2007-10-12: bugfix for executing stored proc without params in a single row. tested with mysql
+********************************************************************************

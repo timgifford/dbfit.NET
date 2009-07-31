@@ -1,0 +1,108 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8AB499E7-6D79-4155-958F-12A574F28298}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dbfit</RootNamespace>
+    <AssemblyName>dbfit</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fit, Version=1.1.2591.25725, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\fit.dll</HintPath>
+    </Reference>
+    <Reference Include="FitLibrary, Version=1.0.2591.25726, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\FitLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.9.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\DB2Test.cs" />
+    <Compile Include="src\environment\AbstractDbEnvironment.cs" />
+    <Compile Include="src\environment\DbEnvironmentFactory.cs" />
+    <Compile Include="src\environment\MySqlEnvironment.cs" />
+    <Compile Include="src\fixture\ExecuteProcedureTest.cs" />
+    <Compile Include="src\fixture\SetParameter.cs" />
+    <Compile Include="src\SqlServer2000Test.cs" />
+    <Compile Include="src\environment\SqlServer2000Environment.cs" />
+    <Compile Include="src\fixture\CompareStoredQueries.cs" />
+    <Compile Include="src\fixture\StoreQuery.cs" />
+    <Compile Include="src\fixture\Clean.cs" />
+    <Compile Include="src\fixture\AbstractDataTableFixture.cs" />
+    <Compile Include="src\fixture\Inspect.cs" />
+    <Compile Include="src\fixture\Update.cs" />
+    <Compile Include="src\fixture\DatabaseEnvironment.cs" />
+    <Compile Include="src\fixture\DefaultDataTableFixture.cs" />
+    <Compile Include="src\fixture\Query.cs" />
+    <Compile Include="src\fixture\QueryStats.cs" />
+    <Compile Include="src\oldnames\OldNames.cs" />
+    <Compile Include="src\SqlServerTest.cs" />
+    <Compile Include="src\environment\SqlServerEnvironment.cs" />
+    <Compile Include="src\util\ByteArrayHandler.cs" />
+    <Compile Include="src\util\ByteArrayHandlerTest.cs" />
+    <Compile Include="src\util\FixedLengthStringHandler.cs" />
+    <Compile Include="src\util\DbConnectionPropertiesTest.cs" />
+    <Compile Include="src\util\GuidHandler.cs" />
+    <Compile Include="src\util\Export.cs" />
+    <Compile Include="src\util\GuidTestFixture.cs" />
+    <Compile Include="src\util\IdRetrievalAccessor.cs" />
+    <Compile Include="src\util\NameNormaliser.cs" />
+    <Compile Include="src\util\DataColumnAccessor.cs" />
+    <Compile Include="src\util\DbParameterAccessor.cs" />
+    <Compile Include="src\environment\DbEnvironment.cs" />
+    <Compile Include="src\fixture\Insert.cs" />
+    <Compile Include="src\util\NameNormaliserTest.cs" />
+    <Compile Include="src\environment\OracleEnvironment.cs" />
+    <Compile Include="src\fixture\DataTableFixtureTest.cs">
+    </Compile>
+    <Compile Include="src\DatabaseTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\environment\OracleEnvironmentTest.cs" />
+    <Compile Include="src\OracleTest.cs" />
+    <Compile Include="src\fixture\Execute.cs" />
+    <Compile Include="src\fixture\ExecuteProcedure.cs" />
+    <Compile Include="src\util\DbConnectionProperties.cs" />
+    <Compile Include="src\util\Options.cs" />
+    <Compile Include="src\util\RedirectingFailHandler.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)lib\*.*" "$(TargetDir)" </PostBuildEvent>
+  </PropertyGroup>
+</Project>

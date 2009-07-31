@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbfit", "dbfit.csproj", "{8AB499E7-6D79-4155-958F-12A574F28298}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbfit.test", "..\test\dbfit.test.csproj", "{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AB499E7-6D79-4155-958F-12A574F28298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB499E7-6D79-4155-958F-12A574F28298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB499E7-6D79-4155-958F-12A574F28298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB499E7-6D79-4155-958F-12A574F28298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

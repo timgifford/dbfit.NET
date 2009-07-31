@@ -1,0 +1,89 @@
+|'''Date: '''|!-5:21:10 PM (CDT) on Thursday, July 30, 2009-!|
+|'''Command: '''|!-java -cp C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\dbunit-2.4.1.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\derbyclient.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitlibrary.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitnesse.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\mysql-connector-java-5.0.7-bin.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\ojdbc14.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\poi-3.2-FINAL.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\postgresql-8.3-603.jdbc4.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-api-1.5.6.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-nop-1.5.6.jar;../impl/java/target/classes fit.FitServer wkst662 8085 34-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-6.219 seconds-!|
+----'''Standard Output:'''
+{{{Query: 'select 'test' as x'
+Rolling back
+Query: 'Select * from Test_DBFit'
+Rolling back
+Rolling back
+Query: 'SELECT n, n*2 as l  FROM ( select 1 as n union select 2 union select 3 ) x'
+Rolling back
+Query: 'select date(now()) as dat, timestamp(now()) as ts, now() as dt'
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Rolling back
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Query: 'select * from datatypetest'
+Rolling back
+Query: 'Select * from datatypetest'
+Query: 'Select * from datatypetest'
+Query: 'Select * from datatypetest'
+Rolling back
+Query: 'Select * from Test_DBFit'
+Rolling back
+Rolling back
+Rolling back
+Query: 'select n from (
+ select 1 as n union
+ select 2 union
+ select 3)
+x'
+Rolling back
+Query: 'select * from users'
+Rolling back
+Query: 'select * from test_1'
+Rolling back
+Query: 'Select coalesce(@myid,-1) as val'
+Rolling back
+Query: 'SELECT n FROM ( SELECT 1 as n union select 2 union select 3 ) x'
+Query: 'SELECT n FROM ( SELECT 1 as n union select 2 union select 3 ) x'
+Rolling back
+Query: 'select @p1  as what from dual'
+Query: 'select @p1 as whatnext from dual'
+Rolling back
+Rolling back
+Rolling back
+Query: 'SELECT n FROM ( SELECT 1 as n union select 2 union select 3 union select 4) x where n<@depth'
+Rolling back
+Query: 'SELECT @depth+n as n FROM ( SELECT 1 as n union select 2 union select 3 union select 4) x where n<@depth'
+Rolling back
+Query: 'select now() as currd'
+Rolling back
+Query: 'select n from ( select 1 as n union select 2 union select 3) x'
+Rolling back
+Query: 'select 'test' as x'
+Rolling back
+Rolling back
+Query: 'select * from users'
+Rolling back
+Rolling back
+Rolling back
+Rolling back
+Query: 'select * from users'
+Rolling back
+Rolling back
+Query: 'Select * from Test_DBFit'
+Query: 'Select * from Test_DBFit'
+Query: 'Select * from Test_DBFit'
+Rolling back
+Query: 'Select @involved as what'
+Rolling back
+Query: 'select * from users'
+Query: 'select * from users'
+Query: 'select * from users'
+Query: 'select * from users'
+Query: 'select * from users'
+Query: 'select * from users'
+Rolling back
+Query: 'Select * from Test_DBFit'
+Query: 'Select * from Test_DBFit2'
+Query: 'Select * from Test_DBFit'
+Query: 'Select * from Test_DBFit2'
+Query: 'Select * from Test_DBFit'
+}}}

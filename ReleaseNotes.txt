@@ -1,0 +1,52 @@
+                   D B    F I T        
+                  
+  What is it? 
+  -----------
+  Standard DB Fixtures for FIT [Framework for Integrated Test]
+  [http://fit.c2.com/] and FitNesse [http://fitnesse.org]. 
+
+
+  The Latest Version
+  ------------------
+
+  Details of the latest version can be found on the DB Fit
+  Project web site <http://sourceforge.net/projects/dbfit/>.
+
+
+  Documentation
+  -------------
+
+  
+
+ 
+  Examples
+  --------
+
+  
+  
+  Fitnesse
+  --------
+  
+  You can also start the Fitnesse Wiki and see the examples there. 
+  To start Fitnesse, run the startFitnesse.bat file under the scripts folder. 
+  If JAVA_HOME Env variable is not set, please fix the bat file before 
+  running it.
+  By default Fitnesse would start on http://localhost:8085
+  
+ 
+  Directions to use
+  -----------------
+
+  DBFit is available for fit and fitnesse in Java and .Net. 
+  Copy the respective binaries into the classpath of Fit/FitNesse.
+
+  Licensing
+  ---------
+
+  This software is licensed under the GNU Genral Public License.
+  You can find a copy of the license at http://www.gnu.org/copyleft/gpl.html
+  
+  
+
+  Thanks for using DB Fit.
+ 

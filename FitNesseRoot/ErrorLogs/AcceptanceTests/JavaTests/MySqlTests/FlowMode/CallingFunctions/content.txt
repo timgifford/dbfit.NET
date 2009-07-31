@@ -1,0 +1,42 @@
+|'''Date: '''|!-4:26:19 PM (CDT) on Thursday, July 30, 2009-!|
+|'''Command: '''|!-java -cp C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\dbunit-2.4.1.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\derbyclient.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitlibrary.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\fitnesse.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\mysql-connector-java-5.0.7-bin.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\ojdbc14.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\poi-3.2-FINAL.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\postgresql-8.3-603.jdbc4.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-api-1.5.6.jar;C:\dbfit\dbfit-1.x\scripts\..\impl\java\lib\slf4j-nop-1.5.6.jar;../impl/java/target/classes fit.FitServer wkst662 8085 18-!|
+|'''Exit code: '''|!-4-!|
+|'''Time elapsed: '''|!-0.532 seconds-!|
+----'''Standard Output:'''
+{{{Rolling back
+}}}----'''Standard Error:'''
+{{{java.sql.SQLException: Unknown procedure ConcatenateF
+	at dbfit.environment.MySqlEnvironment.getAllProcedureParameters(MySqlEnvironment.java:140)
+	at dbfit.fixture.ExecuteProcedure.initParameters(ExecuteProcedure.java:170)
+	at dbfit.fixture.ExecuteProcedure.executeStatementForEachRow(ExecuteProcedure.java:155)
+	at dbfit.fixture.ExecuteProcedure.doRows(ExecuteProcedure.java:128)
+	at fit.Fixture.doTable(Fixture.java:162)
+	at dbfit.fixture.ExecuteProcedure.doTable(ExecuteProcedure.java:113)
+	at fitlibrary.traverse.AlienTraverseHandler.doTable(AlienTraverseHandler.java:18)
+	at fitlibrary.traverse.workflow.DoTraverse.interpretWholeTable(DoTraverse.java:98)
+	at fitlibrary.DoFixture.interpretWholeTable(DoFixture.java:63)
+	at fitlibrary.suite.InFlowPageRunner.run(InFlowPageRunner.java:39)
+	at fitlibrary.DoFixture.interpretTables(DoFixture.java:40)
+	at dbfit.DatabaseTest.interpretTables(DatabaseTest.java:25)
+	at fit.Fixture.doTables(Fixture.java:75)
+	at fit.FitServer.process(FitServer.java:76)
+	at fit.FitServer.run(FitServer.java:52)
+	at fit.FitServer.main(FitServer.java:43)
+java.sql.SQLException: Unknown procedure ConcatenateF
+	at dbfit.environment.MySqlEnvironment.getAllProcedureParameters(MySqlEnvironment.java:140)
+	at dbfit.fixture.ExecuteProcedure.initParameters(ExecuteProcedure.java:170)
+	at dbfit.fixture.ExecuteProcedure.executeStatementForEachRow(ExecuteProcedure.java:155)
+	at dbfit.fixture.ExecuteProcedure.doRows(ExecuteProcedure.java:128)
+	at fit.Fixture.doTable(Fixture.java:162)
+	at dbfit.fixture.ExecuteProcedure.doTable(ExecuteProcedure.java:113)
+	at fitlibrary.traverse.AlienTraverseHandler.doTable(AlienTraverseHandler.java:18)
+	at fitlibrary.traverse.workflow.DoTraverse.interpretWholeTable(DoTraverse.java:98)
+	at fitlibrary.DoFixture.interpretWholeTable(DoFixture.java:63)
+	at fitlibrary.suite.InFlowPageRunner.run(InFlowPageRunner.java:39)
+	at fitlibrary.DoFixture.interpretTables(DoFixture.java:40)
+	at dbfit.DatabaseTest.interpretTables(DatabaseTest.java:25)
+	at fit.Fixture.doTables(Fixture.java:75)
+	at fit.FitServer.process(FitServer.java:76)
+	at fit.FitServer.run(FitServer.java:52)
+	at fit.FitServer.main(FitServer.java:43)
+}}}
