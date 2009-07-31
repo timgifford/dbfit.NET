@@ -1,60 +1,45 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Text;
 using System.Text.RegularExpressions;
 using dbfit.util;
+using MySql.Data.MySqlClient;
 
 namespace dbfit
 {
-    public class SchemaObjectName
-    {
-        private readonly string name;
-        private readonly string schema = string.Empty;
 
-        public SchemaObjectName(string schema, string name)
-        {
-            if(!String.IsNullOrEmpty( schema )) this.schema = schema;
-            this.name = name;
+    public class ColumnInfo {
+        private readonly string columnName;
+        private readonly string datatype;
+        private readonly string direction;
+        private readonly int size;
+
+        public ColumnInfo(string columnName, string datatype, string direction, int size) {
+            this.columnName = columnName;
+            this.datatype = datatype;
+            this.direction = direction;
+            this.size = size;
         }
 
-        public SchemaObjectName(string name):this(null, name)
+        public int Size
         {
+            get { return size; }
         }
 
-        public string Name
-        {
-            get { return name; }
+        public string ColumnName {
+            get { return columnName; }
         }
 
-        public string Schema
-        {
-            get { return schema; }
+        public string Datatype {
+            get { return datatype; }
         }
 
-        public override string ToString()
-        {
-            return !HasSchema() ? name : string.Format("{0}.{1}", schema, name);
+        public string Direction {
+            get { return direction; }
         }
 
-        public static SchemaObjectName Parse(string[] valueArray)
-        {
-            switch (valueArray.Length)
-            {
-                case 1:
-                    return new SchemaObjectName(valueArray[0]);
-                case 2:
-                    return new SchemaObjectName(valueArray[0], valueArray[1]);
-                default:
-                    throw new ArgumentOutOfRangeException("valueArray", valueArray.Length,
-                                                          "The length of the array needs to be 1 or 2.");
-            }
-        }
-
-        public bool HasSchema()
-        {
-            return (!String.IsNullOrEmpty(schema));
-        }
     }
 
     public class MySqlEnvironment : AbstractDbEnvironment
@@ -63,6 +48,25 @@ namespace dbfit
         {
             get { return "?"; }
         }
+
+
+        public IList<DbParameterAccessor> BuildDbParameterAccessorFromColumnInfo(IEnumerable <ColumnInfo> columnInfo) {
+            
+            IList <DbParameterAccessor> parameterList = new List<DbParameterAccessor>();
+            int position = 0;
+
+            foreach (ColumnInfo column in columnInfo)
+            {
+                Type dotNetType = GetRuntimeType(column.Datatype);
+                MySqlDbType mySqlDbType = GetSqlType(column.Datatype);
+
+                DbParameter mySqlParameter = new MySqlParameter(column.ColumnName, mySqlDbType, column.Size);
+
+                parameterList.Add(new DbParameterAccessor(mySqlParameter, dotNetType, position++, column.Datatype)); 
+            }
+            return parameterList;
+        }
+
 
         protected override string GetConnectionString(string dataSource, string username, string password)
         {
@@ -81,7 +85,44 @@ namespace dbfit
         }
 
         private static readonly DbProviderFactory MySqlDbProviderFactory = new MySql.Data.MySqlClient.MySqlClientFactory();
-        
+
+        private static readonly List<string> stringTypes = new List<string>(new string[] { "VARCHAR", "CHAR", "TEXT" });
+        private static readonly List<string> intTypes = new List<string>(new string[] { "TINYINT", "SMALLINT", "MEDIUMINT", "INT", "INTEGER" });
+        private static readonly List<string> longTypes = new List<string>(new string[] { "BIGINT", "INTEGER UNSIGNED", "INT UNSIGNED" });
+        private static readonly List<string> floatTypes = new List<string>(new string[] { "FLOAT" });
+        private static readonly List<string> doubleTypes = new List<string>(new string[] { "DOUBLE" });
+        private static readonly List<string> decimalTypes = new List<string>(new string[] { "DECIMAL", "DEC" });
+        private static readonly List<string> dateTypes = new List<string>(new string[] { "DATE" });
+        private static readonly List<string> timestampTypes = new List<string>(new string[] { "TIMESTAMP", "DATETIME" });
+
+        private static MySqlDbType GetSqlType(string dataTypeName)
+        {
+            if(stringTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.VarChar;
+            if(intTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Int32;
+            if(longTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Int64;
+            if(floatTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Float;
+            if(doubleTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Double;
+            if(decimalTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Decimal;
+            if(dateTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Date;
+            if(timestampTypes.Contains(dataTypeName.ToUpperInvariant())) return MySqlDbType.Timestamp;
+
+            throw new ArgumentException(string.Format("Unable to find matching MySqlDbType for '{0}'", dataTypeName));
+        }
+        private static Type GetRuntimeType(string dataTypeName)
+        {
+            if (stringTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(string);
+            if (intTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(int);
+            if (longTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(long);
+            if (floatTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(float);
+            if (doubleTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(double);
+            if (decimalTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(decimal);
+            if (dateTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(DateTime);
+            if (timestampTypes.Contains(dataTypeName.ToUpperInvariant())) return typeof(DateTime);
+
+
+            throw new ArgumentException(string.Format("Unable to find matching RuntimeType for '{0}'", dataTypeName));
+        }
+
         public override DbProviderFactory DbProviderFactory {
             get { return MySqlDbProviderFactory; }
         }
@@ -182,6 +223,8 @@ String[] qualifiers = NameNormaliser.normaliseName(procName).split("\\.");
             string qry = GetAllColumnsSql(SchemaObjectName.Parse(qualifiers));
             return readIntoParams(qualifiers, qry);
         }
+
+       
 
         private Dictionary<string, DbParameterAccessor> readIntoParams(string[] qualifiers, string query)
         {

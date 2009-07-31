@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Environment\MySqlEnvironment.cs" />
+    <Compile Include="Environment\SchemaObjectName.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fixture\" />
