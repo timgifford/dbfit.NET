@@ -18,8 +18,10 @@ namespace dbfit.test {
         public void SetUp()
         {
             environment = new MySqlEnvironmentTestDouble();
-            bigIntcolumnInfo = new ColumnInfo[] {
-                                              new ColumnInfo("column_name", "bigint", "direction", 3)};
+            bigIntcolumnInfo = new ColumnInfo[] 
+                                    {
+                                              new ColumnInfo("column_name", "bigint", "direction", 3)
+                                    };
 
             stringColumnInfo = new ColumnInfo[]
                                    {
@@ -108,6 +110,11 @@ namespace dbfit.test {
 
         // Get the data from the database
         // Package into some disconnected structure
+        [Test, Ignore]
+        public void ShouldMapIDataReaderToColumnInfo()
+        {
+            Assert.Fail();
+        }
 
         [Test]
         public void ShouldMapDisconnectedDataStructureToDbParameterAccessor()

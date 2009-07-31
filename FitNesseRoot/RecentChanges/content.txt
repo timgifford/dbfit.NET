@@ -1,5 +1,0 @@
-|AcceptanceTests.JavaTests.MySqlTests.FlowMode.ParametersAreLoadedAutomaticallyFromVariables||17:20:59 Thu, Jul 30, 2009|
-|AcceptanceTests.JavaTests.MySqlTests.FlowMode.BulkInsertWithReturning||17:20:28 Thu, Jul 30, 2009|
-|AcceptanceTests.JavaTests.MySqlTests.StandaloneFixtures.TearDown||16:33:52 Thu, Jul 30, 2009|
-|AcceptanceTests.JavaTests.MySqlTests.StandaloneFixtures.SetUp||16:33:08 Thu, Jul 30, 2009|
-|AcceptanceTests.JavaTests.MySqlTests.FlowMode.SetUp||16:26:17 Thu, Jul 30, 2009|
