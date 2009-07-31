@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\ColumnInfo.cs" />
     <Compile Include="Environment\MySqlEnvironment.cs" />
+    <Compile Include="Environment\MySqlTypeConverter.cs" />
     <Compile Include="Environment\SchemaObjectName.cs" />
   </ItemGroup>
   <ItemGroup>

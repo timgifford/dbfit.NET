@@ -1,32 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
 using MySql.Data.MySqlClient;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace dbfit.test {
-    [TestFixture]
-    public class MySqlEnvironmentSpec {
+    public class MySqlEnvironmentSpec : Spec {
 
-        private MySqlEnvironmentTestDouble environment = null;
-        private ColumnInfo[] bigIntcolumnInfo;
-        private ColumnInfo[] stringColumnInfo;
+        protected MySqlEnvironmentTestDouble environment = null;
 
-        [SetUp]
-        public void SetUp()
-        {
+        public override void SetUp() {
+            base.SetUp();
             environment = new MySqlEnvironmentTestDouble();
-            bigIntcolumnInfo = new ColumnInfo[] 
-                                    {
-                                              new ColumnInfo("column_name", "bigint", "direction", 3)
-                                    };
-
-            stringColumnInfo = new ColumnInfo[]
-                                   {
-                                       new ColumnInfo("column_name", "varchar", "direction", 3)
-                                   };
         }
 
         [Test]
@@ -110,54 +97,12 @@ namespace dbfit.test {
 
         // Get the data from the database
         // Package into some disconnected structure
-        [Test, Ignore]
-        public void ShouldMapIDataReaderToColumnInfo()
-        {
-            Assert.Fail();
-        }
-
-        [Test]
-        public void ShouldMapDisconnectedDataStructureToDbParameterAccessor()
-        {
-            IList<DbParameterAccessor> accessor = environment.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
-
-            Assert.That(accessor[0].ActualSqlType, Is.EqualTo("bigint"));
-            Assert.That(accessor[0].DbFieldName, Is.EqualTo("column_name"));
-            Assert.That(accessor[0].Position, Is.EqualTo(0));
-            Assert.That(accessor[0].DbParameter.Direction, Is.EqualTo(ParameterDirection.Input));
-            Assert.That(accessor[0].DbParameter.Size, Is.EqualTo(3));
-        }
-
-        [Test]
-        public void ShouldMapRunTimeTypeToDbParameterAccessorForBigIntColumn() {
-            IList<DbParameterAccessor> accessor = environment.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
-
-            Assert.That(accessor[0].DotNetType, Is.EqualTo(typeof(long)));
-        }
-
-        [Test]
-        public void ShouldMapMySqlTypeToDbParameterAccessorForBigIntColumn() {
-            IList<DbParameterAccessor> accessor = environment.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
-
-            Assert.That(accessor[0].DbParameter.DbType, Is.EqualTo(DbType.Int64));
-        }
-
-        [Test]
-        public void ShouldMapMySqlTypeToDbParameterAccessorForStringColumn() {
-            IList<DbParameterAccessor> accessor = environment.BuildDbParameterAccessorFromColumnInfo(stringColumnInfo);
-
-            Assert.That(accessor[0].DbParameter.DbType, Is.EqualTo(DbType.String));
-        }
-
-        [Test]
-        public void ShouldMapRunTimeTypeToDbParameterAccessorForStringColumn() {
-            IList<DbParameterAccessor> accessor = environment.BuildDbParameterAccessorFromColumnInfo(stringColumnInfo);
-
-            Assert.That(accessor[0].DotNetType, Is.EqualTo(typeof(string)));
-        }
 
 
-        private class MySqlEnvironmentTestDouble : MySqlEnvironment
+
+
+
+        protected class MySqlEnvironmentTestDouble : MySqlEnvironment
         {
             public string ConnectionString = null;
 
@@ -170,9 +115,7 @@ namespace dbfit.test {
             public override void Connect(string dataSource, string username, string password, string database) {
                 ConnectionString = base.GetConnectionString(dataSource, username, password, database);
             }
-
         }
     }
-
 
 }
