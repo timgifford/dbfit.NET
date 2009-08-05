@@ -13,9 +13,37 @@ namespace dbfit
     {
         public override string ParameterPrefix
         {
-            get { return "?"; }
+            get { return "@"; }
         }
 
+        public override DbCommand CreateCommand(string statement, CommandType commandType) {
+            
+            Console.WriteLine("CreateCommand: {0}", statement);
+
+            string preparedStatement = paramNameRegex.Replace(statement, "?");
+            Console.WriteLine(preparedStatement);
+            DbCommand command = base.CreateCommand(preparedStatement, commandType);
+            command.Prepare();
+
+            return command;
+        }
+        public override string BuildInsertCommand(string tableName, DbParameterAccessor[] accessors) {
+            string insertCommand = base.BuildInsertCommand(tableName, accessors);
+            //insertCommand = paramNameRegex.Replace(insertCommand, "?");
+            //string blah = Regex.Replace(insertCommand, paramNameRegex.ToString(), "?");
+            Console.WriteLine("MySqlEnvironment.BuildInsertCommand:{0}", insertCommand);
+            return insertCommand;
+        }
+        protected override void AddInput(DbCommand dbCommand, string name, object value) {
+
+            Console.WriteLine("Command: {0} Name:{1} value:{2}", dbCommand.CommandText, name, value);
+
+            DbParameter dbParameter = dbCommand.CreateParameter();
+            dbParameter.Direction = ParameterDirection.Input;
+            //dbParameter.ParameterName = name;
+            dbParameter.Value = (value ?? DBNull.Value);
+            dbCommand.Parameters.Add(dbParameter);
+        }
         protected override string GetConnectionString(string dataSource, string username, string password)
         {
             return string.Format("Server={0};Uid={1};Pwd={2};", dataSource, username, password );
@@ -26,7 +54,7 @@ namespace dbfit
             return string.Format("Server={0};Database={3};Uid={1};Pwd={2};", dataSource, username, password, database);
         }
 
-        private readonly Regex paramNameRegex = new Regex("\\?([A-Za-z0-9_]+)");
+        public readonly Regex paramNameRegex = new Regex("(@[A-Za-z0-9_]+)");
         protected override Regex ParamNameRegex
         {
             get { return paramNameRegex; }
@@ -117,11 +145,11 @@ String[] qualifiers = NameNormaliser.normaliseName(procName).split("\\.");
 
             if(tableOrViewName.HasSchema())
             {
-                query.Append("LOWER(table_schema)=? AND LOWER(table_name)=? ");
+                query.Append("LOWER(table_schema)=?dbname AND LOWER(table_name)=?tablename ");
             }
             else
             {
-                query.Append("(table_schema=database() AND LOWER(table_name)=?) ");
+                query.Append("(table_schema=database() AND LOWER(table_name)=?tablename) ");
             }
 
             query.Append("ORDER BY ordinal_position");
@@ -132,19 +160,51 @@ String[] qualifiers = NameNormaliser.normaliseName(procName).split("\\.");
         public override Dictionary<string, DbParameterAccessor> GetAllColumns(string tableOrViewName)
         {
             String[] qualifiers = NameNormaliser.NormaliseName(tableOrViewName).Split('.');
-            string qry = GetAllColumnsSql(SchemaObjectName.Parse(qualifiers));
-            return readIntoParams(qualifiers, qry);
+            SchemaObjectName name = SchemaObjectName.Parse(qualifiers);
+            string qry = GetAllColumnsSql(name);
+            return ReadIntoParams(name, qry);
         }
 
-       
 
-        private Dictionary<string, DbParameterAccessor> readIntoParams(string[] qualifiers, string query)
+
+        private Dictionary<string, DbParameterAccessor> ReadIntoParams(SchemaObjectName tableOrViewname, string query)
         {
-            throw new NotImplementedException();
+            Dictionary<string, DbParameterAccessor> accessorDictionary = new Dictionary<string, DbParameterAccessor>();
+            int position = 0;
+            DbCommand dc = CurrentConnection.CreateCommand();
+            dc.Transaction = CurrentTransaction;
+            dc.CommandText = query;
+            dc.CommandType = CommandType.Text;
+            
+            if (tableOrViewname.HasSchema()) AddInput(dc, "dbname", tableOrViewname.Schema);
+            AddInput(dc, "tablename", tableOrViewname.Name);
+
+            using(DbDataReader reader = dc.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(reader, position++);
+                    Console.WriteLine("DbParameter DbFieldName={0}", accessor.DbFieldName);
+                    accessorDictionary.Add(accessor.DbFieldName.ToLowerInvariant(), accessor);
+                }
+            }
+
+            return accessorDictionary;
+        }
+
+        public override string[] ExtractParamNames(string commandText) {
+            Console.WriteLine("ExtractParamNames: {0}",commandText);
+
+            string[] paramNames = base.ExtractParamNames(commandText);
+            foreach (string parameterName in paramNames)
+            {
+                Console.WriteLine("Parameter Name: {0}", parameterName);
+            }
+            return paramNames;
         }
 
         /*
-         private Map<String, DbParameterAccessor> readIntoParams(String[] queryParameters, String query) 
+         private Map<String, DbParameterAccessor> ReadIntoParams(String[] queryParameters, String query) 
 		throws SQLException{
 		PreparedStatement dc=currentConnection.prepareStatement(query);
 		for (int i = 0; i < queryParameters.length; i++) {

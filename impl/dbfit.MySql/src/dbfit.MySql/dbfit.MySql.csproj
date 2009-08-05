@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\</OutputPath>
+    <OutputPath>..\..\..\dotnet\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,10 +28,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dbfit, Version=1.1.2008.822, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dbfit.dll</HintPath>
-    </Reference>
     <Reference Include="fit, Version=1.7.3113.19496, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\fit.dll</HintPath>
@@ -49,9 +45,15 @@
     <Compile Include="Environment\MySqlEnvironment.cs" />
     <Compile Include="Environment\MySqlTypeConverter.cs" />
     <Compile Include="Environment\SchemaObjectName.cs" />
+    <Compile Include="Fixture\MySqlTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Fixture\" />
+    <ProjectReference Include="..\..\..\dotnet\dbfit.csproj">
+      <Project>{8AB499E7-6D79-4155-958F-12A574F28298}</Project>
+      <Name>dbfit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

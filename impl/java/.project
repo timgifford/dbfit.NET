@@ -1,19 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>dbfit</name>
-	<comment>DbFit is a set of fixtures which enables FIT/FitNesse tests to execute directly against a database,
+  <name>dbfit</name>
+  <comment>DbFit is a set of fixtures which enables FIT/FitNesse tests to execute directly against a database,
     enabling developers to manipulate database objects in a relational form, making database TDD much easier then with
     xUnit-style tools.</comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-	</natures>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
 </projectDescription>

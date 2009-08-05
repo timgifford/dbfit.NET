@@ -46,29 +46,28 @@ namespace dbfit
             throw new ArgumentException(String.Format("Unable to find matching RuntimeType for '{0}'", dataTypeName));
         }
 
-        public static IList<DbParameterAccessor> BuildDbParameterAccessorFromColumnInfo(IEnumerable <ColumnInfo> columnInfo) {
-            
-            IList <DbParameterAccessor> parameterList = new List<DbParameterAccessor>();
-            int position = 0;
+        public static DbParameterAccessor BuildDbParameterAccessorFrom(IDataReader reader, int position)
+        {
+            ColumnInfo columnInfo = GetColumnInfoFrom(reader);
+            return BuildDbParameterAccessorFrom(columnInfo, position);
+        }
 
-            foreach (ColumnInfo column in columnInfo)
-            {
-                Type dotNetType = GetRuntimeType(column.Datatype);
-                MySqlDbType mySqlDbType = GetSqlType(column.Datatype);
-
-                DbParameter mySqlParameter = new MySqlParameter(column.ColumnName, mySqlDbType, column.Size);
-
-                parameterList.Add(new DbParameterAccessor(mySqlParameter, dotNetType, position++, column.Datatype)); 
-            }
-            return parameterList;
+        public static DbParameterAccessor BuildDbParameterAccessorFrom(ColumnInfo column, int position) {
+            Type dotNetType = GetRuntimeType(column.Datatype);
+            MySqlDbType mySqlDbType = GetSqlType(column.Datatype);
+            DbParameter mySqlParameter = new MySqlParameter(column.ColumnName, mySqlDbType, column.Size, column.ColumnName);
+            return new DbParameterAccessor(mySqlParameter, dotNetType, position, column.Datatype); 
         }
 
         public static ColumnInfo GetColumnInfoFrom(IDataReader reader)
         {
+            string columnName = reader.IsDBNull(0) ? string.Empty : reader.GetString(0);
+            string dataType = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+            int size = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
             ColumnInfo column = new ColumnInfo(
-                reader.GetString(0),
-                reader.GetString(1),
-                reader.GetInt32(2)
+                columnName,
+                dataType,
+                size
                 );
 
             return column;

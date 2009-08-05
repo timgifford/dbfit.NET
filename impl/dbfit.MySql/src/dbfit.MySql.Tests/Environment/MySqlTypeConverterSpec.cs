@@ -7,61 +7,80 @@ namespace dbfit.test
 {
     public class MySqlTypeConverterSpec : Spec
     {
-        private ColumnInfo[] bigIntcolumnInfo;
-        private ColumnInfo[] stringColumnInfo;
+        private ColumnInfo bigIntcolumnInfo;
+        private ColumnInfo stringColumnInfo;
 
         public override void SetUp() {
             base.SetUp();
             
-            bigIntcolumnInfo = new ColumnInfo[] 
-                                   {
-                                       new ColumnInfo("column_name", "bigint", 3)
-                                   };
-
-            stringColumnInfo = new ColumnInfo[]
-                                   {
-                                       new ColumnInfo("column_name", "varchar", 3)
-                                   };
+            bigIntcolumnInfo = new ColumnInfo("column_name", "bigint", 3);
+            stringColumnInfo = new ColumnInfo("column_name", "varchar", 3);
         }
 
         [Test]
         public void ShouldMapDisconnectedDataStructureToDbParameterAccessor()
         {
-            IList<DbParameterAccessor> accessor = MySqlTypeConverter.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(bigIntcolumnInfo, 0);
 
-            Assert.That(accessor[0].ActualSqlType, Is.EqualTo("bigint"));
-            Assert.That(accessor[0].DbFieldName, Is.EqualTo("column_name"));
-            Assert.That(accessor[0].Position, Is.EqualTo(0));
-            Assert.That(accessor[0].DbParameter.Direction, Is.EqualTo(ParameterDirection.Input));
-            Assert.That(accessor[0].DbParameter.Size, Is.EqualTo(3));
+            Assert.That(accessor.ActualSqlType, Is.EqualTo(bigIntcolumnInfo.Datatype));
+            Assert.That(accessor.DbFieldName, Is.EqualTo(bigIntcolumnInfo.ColumnName));
+            Assert.That(accessor.Position, Is.EqualTo(0));
+            Assert.That(accessor.DbParameter.Direction, Is.EqualTo(ParameterDirection.Input));
+            Assert.That(accessor.DbParameter.Size, Is.EqualTo(bigIntcolumnInfo.Size));
         }
 
         [Test]
         public void ShouldMapRunTimeTypeToDbParameterAccessorForBigIntColumn() {
-            IList<DbParameterAccessor> accessor = MySqlTypeConverter.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(bigIntcolumnInfo, 0);
 
-            Assert.That(accessor[0].DotNetType, Is.EqualTo(typeof(long)));
+            Assert.That(accessor.DotNetType, Is.EqualTo(typeof(long)));
         }
 
         [Test]
         public void ShouldMapMySqlTypeToDbParameterAccessorForBigIntColumn() {
-            IList<DbParameterAccessor> accessor = MySqlTypeConverter.BuildDbParameterAccessorFromColumnInfo(bigIntcolumnInfo);
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(bigIntcolumnInfo, 0);
 
-            Assert.That(accessor[0].DbParameter.DbType, Is.EqualTo(DbType.Int64));
+            Assert.That(accessor.DbParameter.DbType, Is.EqualTo(DbType.Int64));
         }
 
         [Test]
         public void ShouldMapMySqlTypeToDbParameterAccessorForStringColumn() {
-            IList<DbParameterAccessor> accessor = MySqlTypeConverter.BuildDbParameterAccessorFromColumnInfo(stringColumnInfo);
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(stringColumnInfo, 0);
 
-            Assert.That(accessor[0].DbParameter.DbType, Is.EqualTo(DbType.String));
+            Assert.That(accessor.DbParameter.DbType, Is.EqualTo(DbType.String));
         }
 
         [Test]
         public void ShouldMapRunTimeTypeToDbParameterAccessorForStringColumn() {
-            IList<DbParameterAccessor> accessor = MySqlTypeConverter.BuildDbParameterAccessorFromColumnInfo(stringColumnInfo);
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(stringColumnInfo, 0);
 
-            Assert.That(accessor[0].DotNetType, Is.EqualTo(typeof(string)));
+            Assert.That(accessor.DotNetType, Is.EqualTo(typeof(string)));
+        }
+
+
+        [Test]
+        public void ShouldMapSourceColumnToDbParameterAccessorForStringColumn() {
+            DbParameterAccessor accessor = MySqlTypeConverter.BuildDbParameterAccessorFrom(stringColumnInfo, 0);
+
+            Assert.That(accessor.DbParameter.SourceColumn, Is.EqualTo(stringColumnInfo.ColumnName));
+        }
+
+
+        [Test]
+        public void ShouldMapDataReaderToColumnInfoWhenReaderHasNullValues()
+        {
+            IDataReader reader = Mock<IDataReader>();
+            ColumnInfo result = null;
+
+            using (Record) {
+                Expect.Call(reader.IsDBNull(0)).IgnoreArguments().Repeat.Times(3).Return(true);
+            }
+            using (Playback) {
+                result = MySqlTypeConverter.GetColumnInfoFrom(reader);
+            }
+
+            Assert.That(result, Is.EqualTo(ColumnInfo.Empty));
+
         }
 
         [Test]

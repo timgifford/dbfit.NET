@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BAF2C1AA-ECD9-462F-8E03-30B8EED7B2B5}</ProjectGuid>
+    <ProjectGuid>{47BFD03F-B6C0-4CD4-9576-1302B86A8F44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>test</RootNamespace>
-    <AssemblyName>test</AssemblyName>
+    <RootNamespace>dbfit.DB2</RootNamespace>
+    <AssemblyName>dbfit.DB2</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\dotnet\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,41 +28,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="fit, Version=1.7.3113.19496, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fit.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.5.1.9189, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.5.0.2, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Rhino.Mocks.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Environment\MySqlEnvironmentSpec.cs" />
-    <Compile Include="Environment\MySqlTypeConverterSpec.cs" />
-    <Compile Include="Environment\SchemaObjectNameSpec.cs" />
+    <Compile Include="DB2Test.cs" />
+    <Compile Include="environment\Db2Environment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spec.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\dotnet\dbfit.csproj">
+    <ProjectReference Include="..\dotnet\dbfit.csproj">
       <Project>{8AB499E7-6D79-4155-958F-12A574F28298}</Project>
       <Name>dbfit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\dbfit.MySql\dbfit.MySql.csproj">
-      <Project>{BEA6C640-CE1E-4E8E-B931-282E10B46AE0}</Project>
-      <Name>dbfit.MySql</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

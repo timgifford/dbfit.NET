@@ -40,6 +40,7 @@ namespace dbfit {
             this.environment.CloseConnection();
         }
 
+        
 		public void SetParameter(String name, object value) {
             dbfit.fixture.SetParameter.SetParameterValue(name, value);
 		}
@@ -117,5 +118,11 @@ namespace dbfit {
         {
             dbfit.util.Options.SetOption(option, value);
         }
+
+        public void Debug() {
+            // Add |Debug| to any database test to launch the debugger.
+            System.Diagnostics.Debugger.Launch();
+        }
+
     }
 }

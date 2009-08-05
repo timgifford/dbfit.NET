@@ -3,11 +3,13 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="target/test-classes" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/db2jcc.jar"/>
 	<classpathentry kind="lib" path="lib/derbyclient.jar"/>
 	<classpathentry kind="lib" path="lib/fitlibrary.jar"/>
 	<classpathentry kind="lib" path="lib/fitnesse.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.7-bin.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="lib/sqljdbc.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/dbunit-2.4.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>

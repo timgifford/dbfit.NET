@@ -1,7 +1,5 @@
 !3 Use ? to mark columns that should return values
 
-define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
-
 !|Insert|users|
 |username|name|userid?|
 |pera|Petar Detlic|>>pera|

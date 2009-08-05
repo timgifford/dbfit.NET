@@ -8,6 +8,8 @@ namespace dbfit
         private readonly string datatype;
         private readonly int size;
 
+        public static ColumnInfo Empty = new ColumnInfo(string.Empty, string.Empty, 0);
+
         public ColumnInfo(string columnName, string datatype, int size) {
             this.columnName = columnName;
             this.datatype = datatype;

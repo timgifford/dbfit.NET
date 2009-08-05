@@ -37,7 +37,8 @@ namespace dbfit.fixture
                 else if ("SQLSERVER2000".Equals(requestedEnv))
                     env = new SqlServer2000Environment();
                 else if ("DB2".Equals(requestedEnv))
-                    env = new DB2Environment();
+                    throw new ApplicationException("Moved DB2 Environment to dbfit.DB2 assembly. Need to instantiate here.");
+                    //env = new DB2Environment();
                 else throw new ApplicationException("DB Environment not supported " + requestedEnv);
 				DbEnvironmentFactory.DefaultEnvironment=env;
 				this.mySystemUnderTest=env;

@@ -46,10 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\DB2Test.cs" />
     <Compile Include="src\environment\AbstractDbEnvironment.cs" />
     <Compile Include="src\environment\DbEnvironmentFactory.cs" />
-    <Compile Include="src\environment\MySqlEnvironment.cs" />
     <Compile Include="src\fixture\ExecuteProcedureTest.cs" />
     <Compile Include="src\fixture\SetParameter.cs" />
     <Compile Include="src\SqlServer2000Test.cs" />
