@@ -1,9 +1,0 @@
-|'''Date: '''|!-1:48:44 PM (CDT) on Wednesday, August 5, 2009-!|
-|'''Command: '''|!-..\impl\dotnet\bin\debug\FitServer.exe c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\dbfit.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\dbfit.MySql.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\fit.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\FitLibrary.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\MySql.Data.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\nunit.framework.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\Rhino.Mocks.dll;c:\dbfit\dbfit-1.x\scripts\..\impl\dotnet\bin\debug\test.dll wkst662 8085 5-!|
-|'''Exit code: '''|!-0-!|
-|'''Time elapsed: '''|!-0.484 seconds-!|
-----'''Standard Output:'''
-{{{CreateCommand: select 'test' as x
-select 'test' as x
-ExtractParamNames: select 'test' as x
-}}}
