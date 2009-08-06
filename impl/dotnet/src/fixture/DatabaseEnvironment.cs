@@ -2,6 +2,7 @@
 /// Released under GNU GPL 2.0
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace dbfit.fixture
@@ -38,7 +39,10 @@ namespace dbfit.fixture
                     env = new SqlServer2000Environment();
                 else if ("DB2".Equals(requestedEnv))
                     throw new ApplicationException("Moved DB2 Environment to dbfit.DB2 assembly. Need to instantiate here.");
-                    //env = new DB2Environment();
+                //env = new DB2Environment();
+                else if ("MYSQL".Equals(requestedEnv)) 
+                    env = Activator.CreateInstance(Type.GetType("dbfit.MySqlEnvironment, dbfit.MySql")) as IDbEnvironment;
+
                 else throw new ApplicationException("DB Environment not supported " + requestedEnv);
 				DbEnvironmentFactory.DefaultEnvironment=env;
 				this.mySystemUnderTest=env;

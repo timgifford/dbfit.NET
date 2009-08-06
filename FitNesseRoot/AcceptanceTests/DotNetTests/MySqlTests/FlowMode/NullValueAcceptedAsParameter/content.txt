@@ -2,6 +2,6 @@ Null value should be accepted as parameter
 
 |Set Parameter|myid|null|
 
-|Query|Select coalesce(@myid,-1) as val|
+|Query|Select coalesce(?myid,-1) as val|
 |val|
 |-1|

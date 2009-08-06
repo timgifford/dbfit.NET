@@ -4,6 +4,6 @@ Only parameters which are defined in the query string will be used - additional 
 
 |Set parameter|involved|5|
 
-|Query|Select @involved as what|
+|Query|Select ?involved as what|
 |what|
 |5|

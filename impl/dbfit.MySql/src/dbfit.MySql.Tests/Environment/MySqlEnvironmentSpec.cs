@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
@@ -25,7 +26,7 @@ namespace dbfit.test {
 
         [Test]
         public void UsesQuestionMarkAsParameterPrefix(){
-            Assert.IsTrue(environment.ParameterPrefix == "@");
+            Assert.IsTrue(environment.ParameterPrefix == "?");
         }
 
         [Test]
@@ -75,50 +76,76 @@ namespace dbfit.test {
         }
         [Test]
         public void CheckSingleParam() {
-            Assert.AreEqual(new string[] { "@mydate" }, environment.ExtractParamNames("select * from dual where sysdate<@mydate"));
+            Assert.AreEqual(new string[] { "mydate" }, environment.ExtractParamNames("select * from dual where sysdate<?mydate"));
         }
         [Test]
         public void CheckMultipleParams() {
-            string[] paramnames = environment.ExtractParamNames("select @myname as zeka from dual where sysdate<@mydate");
+            string[] paramnames = environment.ExtractParamNames("select ?myname as zeka from dual where sysdate<?mydate");
             Assert.AreEqual(2, paramnames.Length);
-            Assert.Contains("@mydate", paramnames);
-            Assert.Contains("@myname", paramnames);
+            Assert.Contains("mydate", paramnames);
+            Assert.Contains("myname", paramnames);
         }
         [Test]
         public void CheckMultipleParamsRecurring() {
-            string[] paramnames = environment.ExtractParamNames("select @myname,length(@myname) as l, @myname || @mydate as zeka2 from dual where sysdate<@mydate");
+            string[] paramnames = environment.ExtractParamNames("select ?myname,length(?myname) as l, ?myname || ?mydate as zeka2 from dual where sysdate<?mydate");
             Assert.AreEqual(2, paramnames.Length);
-            Assert.Contains("@mydate", paramnames);
-            Assert.Contains("@myname", paramnames);
+            Assert.Contains("mydate", paramnames);
+            Assert.Contains("myname", paramnames);
         }
         [Test]
         public void CheckUnderscore() {
-            Assert.AreEqual(new string[] { "@my_date" }, environment.ExtractParamNames("select * from dual where sysdate<@my_date"));
+            Assert.AreEqual(new string[] { "my_date" }, environment.ExtractParamNames("select * from dual where sysdate<?my_date"));
         }
 
 
         [Test]
         public void ShouldExtractParametersFromCommand()
         {
-            const string COMMAND_WITH_PARAMETERS = "INSERT INTO Test_DBFit VALUES (@name,10)";
+            const string COMMAND_WITH_PARAMETERS = "INSERT INTO Test_DBFit VALUES (?name,10)";
 
             string[] parameterNames = environment.ExtractParamNames(COMMAND_WITH_PARAMETERS);
 
             Assert.That(parameterNames, Has.Length.EqualTo(1));
-            Assert.That(parameterNames, Has.Member("@name"));
+            Assert.That(parameterNames, Has.Member("name"));
 
         }
 
         [Test]
-        public void ShouldIncludeAtSymbolInParameterName()
+        public void ShouldBuildInsertCommandWithQuestionMarksInParameterNames()
         {
-            Assert.That(environment.paramNameRegex.Match("@name").Groups[1].Value, Is.EqualTo("@name"));
+            List<DbParameterAccessor> tempList = new List<DbParameterAccessor>();
+            DbParameter dbParameter = new MySqlParameter("username", MySqlDbType.VarChar, 50);
+            tempList.Add(new DbParameterAccessor(dbParameter, typeof(string),0,"varchar"));
+
+            DbParameterAccessor[] accessors = tempList.ToArray();
+
+            string result = environment.BuildInsertCommand("test_table", accessors);
+
+            Assert.That(result.Contains(accessors[0].DbFieldName));
+            Assert.That(result, Is.Not.Contains("??"));
         }
 
-        // Get the data from the database
-        // Package into some disconnected structure
+        [Test, Ignore]
+        public void ShouldBuildParameterWithLeadingQuestionMarkInName()
+        {
+            IDbDataParameter result;
 
+            string parameterName = "?UserName";
+            string parameterValue = "superuser";
+            string commandText = "";
+            IDbCommand command = Mock<IDbCommand>();
 
+            using (Record)
+            {
+                Expect.Call(command.CommandText).Return(commandText);
+            }
+            using (Playback)
+            {
+                result = environment.BuildParameter(command, parameterName, parameterValue);
+            }
+
+            Assert.That(result.ParameterName, Is.EqualTo(parameterName));
+        }
 
 
 

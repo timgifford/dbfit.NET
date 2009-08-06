@@ -9,20 +9,26 @@ using MySql.Data.MySqlClient;
 
 namespace dbfit
 {
+    public class MySqlStoredProcedure
+    {
+        public MySqlStoredProcedure Parse(string parameterList)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class MySqlEnvironment : AbstractDbEnvironment
     {
         public override string ParameterPrefix
         {
-            get { return "@"; }
+            get { return "?"; }
         }
 
         public override DbCommand CreateCommand(string statement, CommandType commandType) {
             
             Console.WriteLine("CreateCommand: {0}", statement);
 
-            string preparedStatement = paramNameRegex.Replace(statement, "?");
-            Console.WriteLine(preparedStatement);
-            DbCommand command = base.CreateCommand(preparedStatement, commandType);
+            DbCommand command = base.CreateCommand(statement, commandType);
             command.Prepare();
 
             return command;
@@ -34,16 +40,25 @@ namespace dbfit
             Console.WriteLine("MySqlEnvironment.BuildInsertCommand:{0}", insertCommand);
             return insertCommand;
         }
-        protected override void AddInput(DbCommand dbCommand, string name, object value) {
 
-            Console.WriteLine("Command: {0} Name:{1} value:{2}", dbCommand.CommandText, name, value);
-
-            DbParameter dbParameter = dbCommand.CreateParameter();
+        protected void AddInput(IDbCommand dbCommand, string name, object value)
+        {
+            IDbDataParameter dbParameter = dbCommand.CreateParameter();
             dbParameter.Direction = ParameterDirection.Input;
-            //dbParameter.ParameterName = name;
+            dbParameter.ParameterName = string.Concat(ParameterPrefix, name);
             dbParameter.Value = (value ?? DBNull.Value);
             dbCommand.Parameters.Add(dbParameter);
         }
+
+        protected override void AddInput(DbCommand dbCommand, string name, object value) {
+            AddInput(dbCommand, name, value);
+        }
+
+        public IDbDataParameter BuildParameter(IDbCommand command, string name, object value)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override string GetConnectionString(string dataSource, string username, string password)
         {
             return string.Format("Server={0};Uid={1};Pwd={2};", dataSource, username, password );
@@ -54,7 +69,7 @@ namespace dbfit
             return string.Format("Server={0};Database={3};Uid={1};Pwd={2};", dataSource, username, password, database);
         }
 
-        public readonly Regex paramNameRegex = new Regex("(@[A-Za-z0-9_]+)");
+        public readonly Regex paramNameRegex = new Regex("\\?([A-Za-z0-9_]+)");
         protected override Regex ParamNameRegex
         {
             get { return paramNameRegex; }
@@ -176,8 +191,7 @@ String[] qualifiers = NameNormaliser.normaliseName(procName).split("\\.");
             dc.CommandText = query;
             dc.CommandType = CommandType.Text;
             
-            if (tableOrViewname.HasSchema()) AddInput(dc, "dbname", tableOrViewname.Schema);
-            AddInput(dc, "tablename", tableOrViewname.Name);
+            AddSchemaAndTablenameParametersToCommand(dc, tableOrViewname);
 
             using(DbDataReader reader = dc.ExecuteReader())
             {
@@ -190,6 +204,12 @@ String[] qualifiers = NameNormaliser.normaliseName(procName).split("\\.");
             }
 
             return accessorDictionary;
+        }
+
+        public void AddSchemaAndTablenameParametersToCommand(IDbCommand dc, SchemaObjectName tableOrViewname)
+        {
+            if (tableOrViewname.HasSchema()) AddInput(dc, "dbname", tableOrViewname.Schema);
+            AddInput(dc, "tablename", tableOrViewname.Name);
         }
 
         public override string[] ExtractParamNames(string commandText) {

@@ -2,11 +2,11 @@ Parameter values persist between statements - they are not cleared after a state
 
 |Set parameter|p1|val1|
 
-|Query|select @p1  as what from dual|
+|Query|select ?p1  as what from dual|
 |what|
 |val1|
 
 
-|Query|select @p1 as whatnext from dual |
+|Query|select ?p1 as whatnext from dual |
 |whatnext|
 |val1|

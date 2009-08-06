@@ -6,11 +6,22 @@
 |3|NAME3|
 |2|NAME2|
 
+
+|execute|create table testtbl2 (n int, name varchar(100))|
+
+!|insert|testtbl2|
+|n|name|
+|1|NAME1|
+|3|NAME3|
+|2|NAME2|
+
 |Store Query|select * from testtbl|fromtable|
 
-|Store Query|select n, concat('NAME',n) as name from ( select 1 as n union select 3 union select 2) x|fromdual|
+|Store Query|select * from testtbl2|fromdual|
 
 |compare stored queries|fromtable|fromdual|
 |name|n?|
 
 |execute|drop table testtbl|
+
+|execute|drop table testtbl2|
