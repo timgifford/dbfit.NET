@@ -8,6 +8,6 @@ Parameters are loaded automatically from variables, no need to set them explicit
 |DevNull|null|>>nll|
 
 
-|Query|Select * from users where userid=@pera|
+|Query|Select * from users where userid=?pera|
 |username|name|userid|
 |pera|Petar Detlic|<<pera|

@@ -20,6 +20,6 @@ define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,susp
 
 !3 Stored values can be used in queries directly
 
-|Query|Select * from users where userid=@zeka|
+|Query|Select * from users where userid=?zeka|
 |username|name|userid|
 |Zeka|Dusko Dugousko|<<zeka|

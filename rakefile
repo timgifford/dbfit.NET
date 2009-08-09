@@ -1,0 +1,92 @@
+require 'rake'
+require 'rake/testtask'
+require 'pathname'
+require 'rubygems'
+require 'tools/Ruby/ProjectFile'
+require 'tools/Ruby/NUnitResultsEvaluator'
+require 'fileutils'
+
+project = "DbFit"
+version = 'v2.0.50727'
+compileTarget = ENV.include?('target') ? ENV['target'] : 'debug'
+frameworkDir = File.join('c:/windows', 'Microsoft.NET', 'Framework', version)
+msbuild = File.join(frameworkDir, 'msbuild.exe')
+nunit = "tools/NUnit/nunit-console-x86.exe"
+
+task :default => [:help]
+
+task :help do
+     taskHash = Hash[*(`rake -T`.split(/\n/).collect { |line| line.match(/rake (\S+)\s+\#\s(.+)/).to_a }.collect { |line| [line[1], line[2]] }).flatten] 
+       indent = "                          "
+       puts "rake #{indent}#Runs the 'default' task"
+       taskHash.each_pair do |key, value|
+           if key.nil?
+               next
+       end
+       puts "rake #{key}#{indent.slice(0, indent.length - key.length)}##{value}"
+    end
+end
+
+desc "Display environment settings"
+task :env do
+    puts "Project:       #{project}"
+    puts ".NET Version:  #{version}"
+    puts "Build Target:  #{compileTarget}"
+    puts "Framework Dir: #{frameworkDir}"
+    puts "MSBuild Path:  #{msbuild}"
+end
+
+desc "Launch the Visual Studio Solution"
+task :sln do
+    Thread.new do
+        sh "c:/Program\\ Files/Microsoft\\ Visual\\ Studio\\ 8/Common7/IDE/devenv FrontEnd/#{project}.sln"
+    end    
+end
+
+desc "Build"
+task :build do
+    sh "#{msbuild} impl/dotnet/#{project}.sln /t:Build /property:Configuration=#{compileTarget}"
+end
+
+desc "Rebuild"
+task :rebuild do
+  sh "#{msbuild} impl/dotnet/#{project}.sln /t:Rebuild /property:Configuration=#{compileTarget}"
+end
+ 
+desc "Clean"
+task :clean do
+  sh "#{msbuild} impl/dotnet/#{project}.sln /t:Clean /property:Configuration=#{compileTarget}"
+end
+
+desc "Run NUnit Tests"
+task :test, :filter do | task, parameters |
+    test_filter = Regexp.new(parameters[:filter] || ".*", Regexp::IGNORECASE)
+     results = NUnitResultsEvaluator.new()
+     FileList['**/*Test*.csproj', '**/*Fixtures*.csproj'].each do | projectFile |
+        project = ProjectFile.new(projectFile)
+        assemblyPath = project.assembly_path
+        next unless assemblyPath.match(test_filter) && File.exists?(assemblyPath)
+        puts "Running unit tests for #{project.project_name}"
+        results.print_test_results(`#{nunit} #{assemblyPath} /xml=#{project.output_path}/TestResult.xml /config=#{assemblyPath}.config /nologo /nodots`, project.project_name)
+        raise "Unit tests failed" unless results.failed == 0
+    end
+    results.print_statistics
+end
+
+desc "Clean Database schema"
+task :dbclean do
+ # Not Implemented	
+end
+
+desc "Clean up everything"
+task :cleanall do 
+    Rake::Task['clean'].execute
+    Rake::Task['dbclean'].execute
+end
+
+desc "all"
+task :all do
+   for each in ['clean','dbclean','build','test','dbclean','fitnesse'] do
+       Rake::Task[each].execute
+    end
+end
